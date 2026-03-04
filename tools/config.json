@@ -1,0 +1,15 @@
+{
+  "api_url": "https://script.google.com/macros/s/AKfycbzVDiNm9hDGInd7s_G-iBA2rsw6NF2BCfdzYlZ4WOwRawKQU0LH4oLrVNup3krfJwsM/exec",
+  "lessons": {
+    "lesson_04_exam": {
+      "label": "Lesson 04 — Bool Logic & Control",
+      "task_ids": ["q01", "q02"],
+      "active": true
+    },
+    "lesson_05_exam": {
+      "label": "Lesson 05 — Modules, Imports & CLI",
+      "task_ids": ["q01", "q02"],
+      "active": true
+    }
+  }
+}
