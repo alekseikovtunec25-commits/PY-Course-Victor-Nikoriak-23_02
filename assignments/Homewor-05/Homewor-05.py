@@ -1,6 +1,9 @@
 #Task1
 
 import random
+
+from docs.strings_docs import word
+
 number = random.randint(1, 10)
 user_input = input("введите число")
 if user_input.isdigit():
@@ -31,3 +34,14 @@ name = input("введите ваше имя:")
 age = int(input("введите ваш возраст:"))
 print(f"Привет {name} в следующем году тебе будет {age+1}")
 
+
+#Task3
+
+import random
+word = input("Введите слово:")
+for i in range(5):
+    new_word = ""
+    for j in range(len(word)):
+        index = random.randint(0, len(word) - 1)
+        new_word = new_word + word[index]
+    print(new_word)
