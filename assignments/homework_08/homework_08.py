@@ -34,5 +34,4 @@ def make_operation(operator , *args ):
 result = make_operation('+',3,4,7,9)
 resultt = make_operation('-',5,4,4,2)
 resulttt = make_operation('*',5,4,8)
-
 print(result,resultt,resulttt)
