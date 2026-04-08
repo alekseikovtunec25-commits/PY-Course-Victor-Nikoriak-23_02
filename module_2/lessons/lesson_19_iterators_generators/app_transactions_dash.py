@@ -1,13 +1,15 @@
 """
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║   Dash-застосунок: Потокова Симуляція Біржових Транзакцій                  ║
-║   Урок 19 · Ітератори та Генератори · Real-World Pipeline                   ║
+║   Dash-застосунок: Потокова Симуляція Біржових Транзакцій                    ║
+║   Урок 19 · Ітератори та Генератори · Real-World Pipeline                    ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
-║   АРХІТЕКТУРА: Event-Driven (Dash callbacks)                                ║
-║   Замість Streamlit rerun-моделі — dcc.Interval → callback → state → graph  ║
+║   АРХІТЕКТУРА: Event-Driven (Dash callbacks)                                 ║
+║    dcc.Interval → callback → state → graph                                   ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 """
 
+import json
+import os
 import random
 from collections import deque, defaultdict
 from datetime import datetime, timedelta
@@ -66,7 +68,7 @@ def transaction_generator(companies: dict, selected: list):
 
         prices[name]  *= (1 + change)
         prices[name]   = max(prices[name], 1.0)
-        clocks[name]  += timedelta(seconds=random.randint(1, 10))
+        clocks[name]  += timedelta(seconds=2)
 
         yield {
             "id":         trade_id,
@@ -79,6 +81,68 @@ def transaction_generator(companies: dict, selected: list):
         }
 
         trade_id += 1
+
+
+DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "transactions.ndjson")
+
+
+def file_transaction_generator(path, selected):
+    """
+    Infinite stream from NDJSON file, filtered to `selected` companies.
+
+    Root cause of single-company display: the file stores all 2 000 records
+    per company in sequential blocks (Нафтогаз 0-1999, ПриватБанк 2000-3999…).
+    A pure line-by-line loop would emit one company for hundreds of ticks before
+    reaching the next.  Fix: load once into a list, shuffle to interleave
+    companies, then cycle through the shuffled list indefinitely.  The 10 K
+    records (~700 KB) are small enough that a one-time load is the correct
+    engineering trade-off.
+    """
+    # ── one-time load & shuffle ───────────────────────────────────────────────
+    records = []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                records.append(json.loads(line))
+            except json.JSONDecodeError:
+                continue
+    random.shuffle(records)
+
+    # ── infinite cycling stream ───────────────────────────────────────────────
+    prev_prices = {}
+    idx = 0
+    while True:
+        tx   = records[idx % len(records)]
+        idx += 1
+
+        name = tx["company"]
+        if name not in selected:
+            continue
+
+        price = float(tx["price"])
+        prev  = prev_prices.get(name, price)
+        change_pct        = round((price - prev) / prev * 100, 3) if prev else 0.0
+        prev_prices[name] = price
+
+        color = COMPANIES[name]["color"] if name in COMPANIES else "#94A3B8"
+
+        try:
+            ts = datetime.fromisoformat(tx.get("timestamp", "")).strftime("%H:%M:%S")
+        except (ValueError, TypeError):
+            ts = tx.get("timestamp", "")
+
+        yield {
+            "id":         tx.get("id", 0),
+            "company":    name,
+            "price":      price,
+            "volume":     int(tx["volume"]),
+            "change_pct": change_pct,
+            "timestamp":  ts,
+            "color":      color,
+        }
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -588,7 +652,7 @@ def update_data(n_intervals, selected, window_size, refresh_every, tick):
         _generator      = None
 
     if selected != _current_selected or _generator is None:
-        _generator        = transaction_generator(COMPANIES, selected)
+        _generator        = file_transaction_generator(DATA_PATH, selected)
         _current_selected = selected
         _state["global_ticks"].clear()
         _state["session_start"]    = datetime.now()
