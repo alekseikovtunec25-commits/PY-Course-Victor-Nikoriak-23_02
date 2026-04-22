@@ -13,3 +13,9 @@ sys.path.append(r"C:\\Users\\aleks\\PycharmProjects\\PY-Course-Victor-Nikoriak-2
 
 import my_module
 my_module.hello()
+
+import my_mod
+
+my_mod.count_lines("my_mod.py")
+my_mod.count_chars("my_mod.py")
+my_mod.test("my_mod.py")
