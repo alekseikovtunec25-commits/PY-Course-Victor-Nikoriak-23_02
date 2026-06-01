@@ -85,6 +85,16 @@ Composite: GPU складає шари
 
 ---
 
+## Навігація по Модулю 5
+
+| Урок | Ключові концепції | Практичний проєкт |
+|------|------------------|-------------------|
+| [lesson_Django_Network_Architecture](../lesson_Django_Network_Architecture/) | MVT, URL routing, HttpResponse, прості view | simple_django_project, news_portal |
+| [lesson_Django_ORM_Database](../lesson_Django_ORM_Database/) | ORM, Services/Selectors, FBV, Bootstrap5-форми вручну | notes_project, notes_project_cbv |
+| **lesson_HTML_CSS_Bootstrap** (цей урок) | HTML/CSS/Bootstrap, Advanced Templates, Crispy Forms, Design Foundations | django_bootstrap_project, crispy_notes_project |
+
+---
+
 ## Навігація по файлах
 
 > **Як читати цю таблицю:** Рівень 1 = абсолютний початківець, Рівень 3 = впевнений junior. Порядок важливий — файли залежать один від одного.
@@ -93,6 +103,8 @@ Composite: GPU складає шари
 
 | Файл | Рядків | Рівень | Тема |
 |------|--------|--------|------|
+| [DESIGN_FOUNDATIONS.md](DESIGN_FOUNDATIONS.md) | ~650 | 0 | UX, CRAP, IA, Bootstrap-філософія, Django Template Architecture, Crispy Forms, Tailwind vs Bootstrap, Static Files, React+Django |
+| [CRISPY_FORMS.md](CRISPY_FORMS.md) | ~300 | 3 | django-crispy-forms довідник: FormHelper, всі Layout-компоненти, template tags, приклади |
 | [HTML_BASICS.md](HTML_BASICS.md) | 1038 | 1 | DOM pipeline, теги, форми, семантика, a11y, DevTools |
 | [CSS_BASICS.md](CSS_BASICS.md) | 1124 | 2 | Rendering Pipeline, Box Model, Flexbox, Grid, Holy Grail, Debugging |
 | [BOOTSTRAP_5.md](BOOTSTRAP_5.md) | 1388 | 3 | Grid, Breakpoints, Navbar, Card, Modal, Forms, JS API, Accessibility |
@@ -101,7 +113,9 @@ Composite: GPU складає шари
 | [ADVANCED_TEMPLATES.md](ADVANCED_TEMPLATES.md) | 1506 | 6 | Context Processors, Custom Tags, crispy-forms, Vite, SaaS Dashboard, Jinja2 Deep Dive, HTMX lifecycle |
 | [DJANGO_ADMIN_UNFOLD.md](DJANGO_ADMIN_UNFOLD.md) | 2171 | 7 | Django Admin + Unfold: AdminSite, ModelAdmin, Dashboard, Widgets, Filters, Caching |
 
-**Практичний проєкт:** [django_bootstrap_project/README.md](django_bootstrap_project/README.md) — CRUD-нотатки: Navbar, Card Grid, Forms, Messages, Debug Toolbar
+**Практичні проєкти:**
+- [django_bootstrap_project/README.md](django_bootstrap_project/README.md) — CRUD-нотатки: Navbar, Card Grid, Forms, Messages, Debug Toolbar
+- [crispy_notes_project/README.md](crispy_notes_project/README.md) — Notes CRUD з `django-crispy-forms` FormHelper+Layout, SaaS Dashboard (`layouts/` + `components/`), порівняння 3 рівнів рендерингу форм
 
 ---
 

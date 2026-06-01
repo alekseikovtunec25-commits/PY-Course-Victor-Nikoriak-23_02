@@ -82,6 +82,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "hello_project.wsgi.application"
 
+# Auth redirects
+LOGIN_REDIRECT_URL = '/notes/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+LOGIN_URL = '/accounts/login/'
+
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.DEBUG:   'secondary',

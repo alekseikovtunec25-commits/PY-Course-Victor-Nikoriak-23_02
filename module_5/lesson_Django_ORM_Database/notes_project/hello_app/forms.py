@@ -125,7 +125,7 @@ class NoteForm(forms.ModelForm):
             # Textarea: <textarea rows="8" class="form-control">
             'content': forms.Textarea(attrs={
                 'class': 'form-control',
-                'rows': 8,              # висота текстового поля (рядки)
+                'rows': 20,              # висота текстового поля (рядки)
                 'placeholder': 'Текст нотатки...',
             }),
 
