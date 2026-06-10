@@ -49,3 +49,43 @@ def create_slogan(name: str) -> str:
 assert create_slogan("Steve") == "Steve пьет * в своем новеньком *!"
 
 print(create_slogan("Steve"))
+
+#Task3
+
+def arg_rules(type_: type, max_length: int, contains: list):
+    def decorator(func):
+        def wrapper(arg):
+
+            # 1. Проверка типа
+            if not isinstance(arg, type_):
+                print("Type check failed")
+                return False
+
+            # 2. Проверка длины
+            if len(arg) > max_length:
+                print("Max length exceeded")
+                return False
+
+            # 3. Проверка содержимого
+            for item in contains:
+                if item not in arg:
+                    print(f"Missing required substring: {item}")
+                    return False
+
+            # если всё ок — вызываем функцию
+            return func(arg)
+
+        return wrapper
+    return decorator
+
+
+@arg_rules(type_=str, max_length=15, contains=["05", "@"])
+def create_slogan(name: str) -> str:
+    return f"{name} drinks pepsi in his brand new BMW!"
+
+
+# Проверка
+print(create_slogan("johndoe05@gmail.com"))  # False
+print(create_slogan("S@SH05"))                # корректная строка
+assert create_slogan("johndoe05@gmail.com") is False
+assert create_slogan("S@SH05") == "S@SH05 drinks pepsi in his brand new BMW!"
