@@ -12,3 +12,19 @@ class Person:
 # Пример использования
 person = Person("Карл", "Джонсон", 26)
 person.talk()
+
+#Task 2
+
+class Dog:
+    age_factor = 7  # атрибут класса
+
+    def __init__(self, age: int):
+        self.age = age  # возраст собаки
+
+    def human_age(self):
+        return self.age * self.age_factor
+
+
+# Пример использования
+dog = Dog(4)
+print(dog.human_age())  # 28
