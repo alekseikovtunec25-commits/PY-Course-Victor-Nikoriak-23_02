@@ -173,3 +173,15 @@ s.sell_product('Ramen', 10)
 assert s.get_product_info('Ramen') == ('Ramen', 290)
 
 print("Все тесты пройдены!")
+
+#Task4
+class CustomException(Exception):
+
+    def __init__(self, msg):
+        super().__init__(msg)
+
+        self.msg = msg
+
+        # записываем ошибку в файл
+        with open("logs.txt", "a", encoding="utf-8") as file:
+            file.write(self.msg + "\n")
