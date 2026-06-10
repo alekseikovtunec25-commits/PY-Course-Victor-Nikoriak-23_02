@@ -91,3 +91,68 @@ class Library:
 
     def __repr__(self):
         return f"Library(name={self.name}, books={len(self.books)})"
+
+#Task 3
+
+from math import gcd
+
+
+class Fraction:
+    def __init__(self, numerator: int, denominator: int):
+        if denominator == 0:
+            raise ValueError("Denominator cannot be zero")
+
+        # нормализация знака
+        if denominator < 0:
+            numerator = -numerator
+            denominator = -denominator
+
+        # сокращение дроби
+        common = gcd(numerator, denominator)
+        self.numerator = numerator // common
+        self.denominator = denominator // common
+
+    def __add__(self, other):
+        new_num = self.numerator * other.denominator + other.numerator * self.denominator
+        new_den = self.denominator * other.denominator
+        return Fraction(new_num, new_den)
+
+    def __sub__(self, other):
+        new_num = self.numerator * other.denominator - other.numerator * self.denominator
+        new_den = self.denominator * other.denominator
+        return Fraction(new_num, new_den)
+
+    def __mul__(self, other):
+        return Fraction(
+            self.numerator * other.numerator,
+            self.denominator * other.denominator
+        )
+
+    def __truediv__(self, other):
+        if other.numerator == 0:
+            raise ValueError("Cannot divide by zero fraction")
+
+        return Fraction(
+            self.numerator * other.denominator,
+            self.denominator * other.numerator
+        )
+
+    def __eq__(self, other):
+        return (self.numerator == other.numerator and
+                self.denominator == other.denominator)
+
+    def __str__(self):
+        return f"{self.numerator}/{self.denominator}"
+
+    def __repr__(self):
+        return f"Fraction({self.numerator}, {self.denominator})"
+
+if __name__ == "__main__":
+    x = Fraction(1, 2)
+    y = Fraction(1, 4)
+
+    result = x + y
+
+    print(result)  # 3/4
+
+    assert result == Fraction(3, 4)
