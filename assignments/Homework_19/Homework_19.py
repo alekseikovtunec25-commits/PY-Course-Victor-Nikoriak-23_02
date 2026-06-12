@@ -16,3 +16,24 @@ if __name__ == "__main__":
 
     for index, name in with_index(names, start=10):
         print(index, name)
+
+#Task 2
+
+def in_range(start, end=None, step=1):
+
+    if end is None:
+        end = start
+        start = 0
+
+    if step == 0:
+        raise ValueError("step не может быть равен 0")
+
+    if step > 0:
+        while start < end:
+            yield start
+            start += step
+    else:
+        while start > end:
+            yield start
+            start += step
+print(list(in_range(10, 0, -1)))
