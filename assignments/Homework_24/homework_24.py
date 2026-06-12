@@ -93,3 +93,81 @@ if __name__ == "__main__":
         print("Скобки сбалансированы ✅")
     else:
         print("Скобки НЕ сбалансированы ❌")
+
+#Task3
+
+# Решение Stack
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        if self.is_empty():
+            raise IndexError("Stack is empty")
+        return self.items.pop()
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+    def get_from_stack(self, e):
+        temp_stack = []
+
+        found = False
+
+        # разбираем стек
+        while not self.is_empty():
+            item = self.pop()
+
+            if item == e and not found:
+                found = True
+                result = item
+
+            temp_stack.append(item)
+
+        # возвращаем элементы обратно
+        while temp_stack:
+            self.push(temp_stack.pop())
+
+        if not found:
+            raise ValueError(f"Element {e} not found in stack")
+
+        return result
+
+# Решение Queue
+
+class Queue:
+    def __init__(self):
+        self.items = []
+
+    def enqueue(self, item):
+        self.items.append(item)
+
+    def dequeue(self):
+        if self.is_empty():
+            raise IndexError("Queue is empty")
+        return self.items.pop(0)
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+    def get_from_stack(self, e):
+        size = len(self.items)
+        found = False
+        result = None
+
+        for _ in range(size):
+            item = self.dequeue()
+
+            if item == e and not found:
+                found = True
+                result = item
+
+            self.enqueue(item)
+
+        if not found:
+            raise ValueError(f"Element {e} not found in queue")
+
+        return result
