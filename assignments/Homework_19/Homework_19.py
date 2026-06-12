@@ -37,3 +37,30 @@ def in_range(start, end=None, step=1):
             yield start
             start += step
 print(list(in_range(10, 0, -1)))
+
+#Task 3
+
+class MyCollection:
+
+    def __init__(self, data):
+        self.data = data
+
+    def __iter__(self):
+        return iter(self.data)
+
+    def __getitem__(self, index):
+        return self.data[index]
+
+
+if __name__ == "__main__":
+    numbers = MyCollection([10, 20, 30, 40])
+
+    print("Работа for-in:")
+    for number in numbers:
+        print(number)
+
+    print()
+
+    print("Работа []:")
+    print(numbers[0])
+    print(numbers[2])
