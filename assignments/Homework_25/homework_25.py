@@ -1,4 +1,9 @@
 #Task1
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
 class UnsortedList:
     def __init__(self):
         self.head = None
@@ -49,10 +54,6 @@ class UnsortedList:
             self.head = current.get_next()
         else:
             previous.set_next(current.get_next())
-
-    # ==========================
-    # Методы из домашнего задания
-    # ==========================
 
     def append(self, item):
         new_node = Node(item)
@@ -205,3 +206,61 @@ class Stack:
             current = current.next
 
         return "Stack(top -> bottom): " + " -> ".join(items)
+
+#Task 3
+
+class Queue:
+    def __init__(self):
+        self.front = None
+        self.rear = None
+
+    def is_empty(self):
+        return self.front is None
+
+    def enqueue(self, item):
+        new_node = Node(item)
+
+        if self.is_empty():
+            self.front = new_node
+            self.rear = new_node
+        else:
+            self.rear.next = new_node
+            self.rear = new_node
+
+    def dequeue(self):
+        if self.is_empty():
+            raise IndexError("Dequeue from empty queue")
+
+        item = self.front.data
+        self.front = self.front.next
+
+        if self.front is None:
+            self.rear = None
+
+        return item
+
+    def peek(self):
+        if self.is_empty():
+            raise IndexError("Queue is empty")
+
+        return self.front.data
+
+    def size(self):
+        count = 0
+        current = self.front
+
+        while current:
+            count += 1
+            current = current.next
+
+        return count
+
+    def __str__(self):
+        items = []
+        current = self.front
+
+        while current:
+            items.append(str(current.data))
+            current = current.next
+
+        return "Queue(front -> rear): " + " -> ".join(items)
