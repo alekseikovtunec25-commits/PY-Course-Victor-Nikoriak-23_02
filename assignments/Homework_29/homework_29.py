@@ -73,3 +73,66 @@ if __name__ == "__main__":
     print("Strongly Connected Components:")
     for component in scc:
         print(component)
+
+#Task2
+
+from collections import deque
+
+
+class Graph:
+    def __init__(self):
+        self.graph = {}
+
+    def add_edge(self, u, v):
+        if u not in self.graph:
+            self.graph[u] = []
+
+        if v not in self.graph:
+            self.graph[v] = []
+
+        self.graph[u].append(v)
+        self.graph[v].append(u)  # неориентированный граф
+
+    def bfs_shortest_paths(self, start):
+        distances = {vertex: float("inf") for vertex in self.graph}
+
+        distances[start] = 0
+
+        queue = deque([start])
+
+        while queue:
+            current = queue.popleft()
+
+            for neighbor in self.graph[current]:
+                if distances[neighbor] == float("inf"):
+                    distances[neighbor] = distances[current] + 1
+                    queue.append(neighbor)
+
+        return distances
+
+    def all_pairs_shortest_paths(self):
+        result = {}
+
+        for vertex in self.graph:
+            result[vertex] = self.bfs_shortest_paths(vertex)
+
+        return result
+
+# Проверка
+
+if __name__ == "__main__":
+
+    g = Graph()
+
+    g.add_edge("A", "B")
+    g.add_edge("A", "C")
+    g.add_edge("B", "D")
+    g.add_edge("C", "D")
+    g.add_edge("D", "E")
+
+    paths = g.all_pairs_shortest_paths()
+
+    for start_vertex, distances in paths.items():
+        print(f"\nВідстані від вершини {start_vertex}:")
+        for end_vertex, distance in distances.items():
+            print(f"{start_vertex} -> {end_vertex}: {distance}")
