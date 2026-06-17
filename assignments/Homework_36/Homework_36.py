@@ -142,3 +142,84 @@ if __name__ == "__main__":
         f"\nMultiprocessing time: "
         f"{end - start:.6f} sec"
     )
+
+#Task2
+
+import asyncio
+import aiohttp
+import json
+
+SUBREDDIT = "python"
+
+URL = (
+    f"https://www.reddit.com/r/"
+    f"{SUBREDDIT}/comments.json?limit=100"
+)
+
+
+async def fetch_comments(session):
+    headers = {
+        "User-Agent": "HomeworkBot/1.0"
+    }
+
+    async with session.get(
+        URL,
+        headers=headers
+    ) as response:
+
+        data = await response.json()
+
+        comments = []
+
+        for item in data["data"]["children"]:
+            post = item["data"]
+
+            comments.append({
+                "title": post["title"],
+                "author": post["author"],
+                "created_utc": post["created_utc"]
+            })
+
+        return comments
+
+
+async def main():
+
+    async with aiohttp.ClientSession() as session:
+
+        tasks = [
+            fetch_comments(session)
+            for _ in range(5)
+        ]
+
+        results = await asyncio.gather(*tasks)
+
+        comments = []
+
+        for batch in results:
+            comments.extend(batch)
+
+        comments.sort(
+            key=lambda comment: comment["created_utc"]
+        )
+
+        with open(
+            "reddit_comments.json",
+            "w",
+            encoding="utf-8"
+        ) as file:
+
+            json.dump(
+                comments,
+                file,
+                ensure_ascii=False,
+                indent=4
+            )
+
+        print(
+            f"Saved {len(comments)} comments"
+        )
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
