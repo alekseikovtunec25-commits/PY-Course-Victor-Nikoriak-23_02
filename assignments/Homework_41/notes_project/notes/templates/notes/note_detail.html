@@ -1,0 +1,25 @@
+<h1>{{ note.title }}</h1>
+
+<p>{{ note.text }}</p>
+
+<p>
+    Category:
+    {{ note.category }}
+</p>
+
+<p>
+    Reminder:
+    {{ note.reminder }}
+</p>
+
+<a href="{% url 'edit_note' note.pk %}">
+    Edit
+</a>
+
+<a href="{% url 'delete_note' note.pk %}">
+    Delete
+</a>
+
+<a href="{% url 'home' %}">
+    Back
+</a>

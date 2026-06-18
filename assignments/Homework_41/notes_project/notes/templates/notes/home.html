@@ -1,0 +1,19 @@
+<h1>Notes</h1>
+
+<a href="{% url 'create_note' %}">
+    Create Note
+</a>
+
+<hr>
+
+{% for note in notes %}
+
+<h3>
+    <a href="{% url 'note_detail' note.pk %}">
+        {{ note.title }}
+    </a>
+</h3>
+
+<p>{{ note.category }}</p>
+
+{% endfor %}
